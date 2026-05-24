@@ -1,0 +1,151 @@
+:root {
+    --panini-blue: #002b5e;
+    --panini-gold: #c5a961;
+    --bg-dark: #071526;
+    --tengo-bg: #ffffff;
+    --repetida-border: #4caf50;
+    --text-light: #f1f1f1;
+    --coke-red: #e31837;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    padding-top: 140px;
+}
+
+/* --- HEADER Y NAVEGACIÓN --- */
+header {
+    position: fixed; top: 0; left: 0; width: 100%;
+    background-color: var(--panini-blue);
+    border-bottom: 4px solid var(--panini-gold);
+    z-index: 1000; padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.header-top {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 10px;
+}
+
+h1 { color: var(--panini-gold); font-size: 1.5rem; text-transform: uppercase; }
+
+.header-actions {
+    display: flex; gap: 15px; align-items: center;
+}
+
+.stats {
+    background: rgba(0,0,0,0.3); padding: 8px 15px;
+    border-radius: 8px; font-size: 0.9rem;
+}
+.stats span { color: var(--panini-gold); font-weight: bold; }
+
+.btn-action {
+    background-color: var(--repetida-border); color: white;
+    border: none; padding: 8px 15px; border-radius: 8px;
+    cursor: pointer; font-weight: bold; transition: background 0.2s;
+}
+.btn-action:hover { background-color: #388e3c; }
+
+.nav-grupos {
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;
+}
+.nav-grupos::-webkit-scrollbar { height: 6px; }
+.nav-grupos::-webkit-scrollbar-thumb { background-color: var(--panini-gold); border-radius: 10px; }
+
+.nav-btn {
+    background: transparent; color: white; border: 1px solid var(--panini-gold);
+    padding: 5px 12px; border-radius: 15px; cursor: pointer;
+    white-space: nowrap; transition: all 0.2s;
+}
+.nav-btn:hover { background: var(--panini-gold); color: var(--bg-dark); }
+
+/* --- ESTRUCTURA DEL ÁLBUM --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px 40px; }
+.group-section { margin-bottom: 40px; }
+
+.group-title {
+    color: var(--panini-gold); border-bottom: 2px solid var(--panini-gold);
+    padding-bottom: 5px; margin-bottom: 20px; font-size: 1.8rem;
+}
+
+.team-section {
+    background-color: rgba(255,255,255,0.05); border-radius: 10px;
+    padding: 15px; margin-bottom: 20px;
+}
+
+.team-title {
+    margin-bottom: 15px; font-size: 1.2rem; color: #fff;
+    display: flex; align-items: center; gap: 10px;
+}
+
+/* Banderas desde FlagCDN */
+.flag-img { width: 28px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+.deco { font-size: 1.2rem; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 10px; }
+
+/* --- FIGURITAS --- */
+.sticker {
+    position: relative; height: 95px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; border-radius: 5px;
+    cursor: pointer; user-select: none; transition: transform 0.1s; font-size: 0.9rem;
+}
+.sticker:active { transform: scale(0.95); }
+
+.falta {
+    background-color: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.4);
+}
+.tengo {
+    background-color: var(--tengo-bg); border: 2px solid #ccc;
+    color: var(--panini-blue); font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+.repetida {
+    background-color: var(--tengo-bg); border: 3px solid var(--repetida-border);
+    color: var(--panini-blue); font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.badge {
+    position: absolute; top: -8px; right: -8px; background-color: var(--repetida-border);
+    color: white; border-radius: 50%; width: 22px; height: 22px; display: flex;
+    align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold;
+}
+.sticker-prefix { font-size: 0.7rem; opacity: 0.8; }
+
+/* --- SECCIONES ESPECIALES --- */
+.coca-cola-section {
+    background-color: var(--coke-red); border: 3px solid white;
+    border-radius: 15px; padding: 20px;
+}
+.coca-cola-section .group-title { color: white; border-color: white; font-style: italic; font-weight: 900; }
+.coca-cola-section .team-title { color: white; }
+.coca-cola-section .tengo, .coca-cola-section .repetida { color: var(--coke-red); }
+
+/* --- MODAL REPETIDAS --- */
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+}
+.modal-content {
+    background: var(--bg-dark); border: 2px solid var(--panini-gold);
+    border-radius: 10px; padding: 20px; width: 90%; max-width: 400px;
+    max-height: 80vh; overflow-y: auto; position: relative;
+}
+.modal-title { color: var(--panini-gold); margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;}
+.close-modal {
+    position: absolute; top: 15px; right: 20px; color: white;
+    font-size: 1.5rem; cursor: pointer; font-weight: bold;
+}
+.repetida-item {
+    background: rgba(255,255,255,0.1); padding: 10px; margin-bottom: 8px;
+    border-radius: 5px; border-left: 4px solid var(--repetida-border);
+    display: flex; justify-content: space-between; align-items: center;
+}
