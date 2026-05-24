@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Álbum Mundial 2026 - Edición Deluxe</title>
+    <style>
+        :root {
+            --panini-blue: #002b5e;
+            --panini-gold: #c5a961;
+            --bg-dark: #071526;
+            --tengo-bg: #ffffff;
+            --repetida-border: #4caf50;
+            --text-light: #f1f1f1;
+            --coke-red: #e31837;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-light); padding-top: 140px; }
+
+        /* --- HEADER Y NAVEGACIÓN --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: var(--panini-blue);
+            border-bottom: 4px solid var(--panini-gold);
+            z-index: 1000; padding: 10px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        h1 { color: var(--panini-gold); font-size: 1.5rem; text-transform: uppercase; }
+        .header-actions { display: flex; gap: 15px; align-items: center; }
+        .stats { background: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 8px; font-size: 0.9rem; }
+        .stats span { color: var(--panini-gold); font-weight: bold; }
+        .btn-action { background-color: var(--repetida-border); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        
+        .nav-grupos { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+        .nav-btn { background: transparent; color: white; border: 1px solid var(--panini-gold); padding: 5px 12px; border-radius: 15px; cursor: pointer; white-space: nowrap; }
+        .nav-btn:hover { background: var(--panini-gold); color: var(--bg-dark); }
+
+        /* --- ESTRUCTURA --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 40px; }
+        .group-section { margin-bottom: 40px; }
+        .group-title { color: var(--panini-gold); border-bottom: 2px solid var(--panini-gold); padding-bottom: 5px; margin-bottom: 20px; font-size: 1.8rem; }
+        .team-section { background-color: rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; margin-bottom: 20px; }
+        .team-title { margin-bottom: 15px; font-size: 1.2rem; color: #fff; display: flex; align-items: center; gap: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 10px; }
+        .sticker { position: relative; height: 95px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 5px; cursor: pointer; user-select: none; transition: transform 0.1s; font-size: 0.9rem; }
+        .falta { background-color: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.3); color: rgba(255,255,255,0.4); }
+        .tengo { background-color: var(--tengo-bg); border: 2px solid #ccc; color: var(--panini-blue); font-weight: bold; }
+        .repetida { background-color: var(--tengo-bg); border: 3px solid var(--repetida-border); color: var(--panini-blue); font-weight: bold; box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); }
+        .badge { position: absolute; top: -8px; right: -8px; background-color: var(--repetida-border); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; }
+
+        /* --- SECCIONES ESPECIALES --- */
+        /* Copa del Mundo */
+        .fwc-section { border: 2px solid var(--panini-gold); background: rgba(197, 169, 97, 0.1); }
+        .fwc-section .team-title { font-weight: bold; color: var(--panini-gold); }
+        
+        /* Coca-Cola */
+        .coca-cola-section { background: linear-gradient(135deg, #e31837, #a00a1a); border: 4px solid white; border-radius: 15px; padding: 20px; color: white; }
+        .coca-cola-section .group-title { color: white; border-color: white; }
+        .coca-cola-section .tengo, .coca-cola-section .repetida { color: #e31837; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--bg-dark); border: 2px solid var(--panini-gold); border-radius: 10px; padding: 20px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
+        .repetida-item { background: rgba(255,255,255,0.1); padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 4px solid var(--repetida-border); display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <h1>Álbum 2026</h1>
+            <div class="header-actions">
+                <div class="stats" id="stats-container">Cargando...</div>
+                <button class="btn-action" onclick="abrirModal()">Mis Repetidas</button>
+            </div>
+        </div>
+        <div class="nav-grupos" id="nav-container"></div>
+    </header>
+
+    <div class="container" id="album-container"></div>
+
+    <div class="modal" id="modal-repetidas">
+        <div class="modal-content">
+            <h2 style="color:var(--panini-gold); margin-bottom:15px; cursor:pointer;" onclick="cerrarModal()">✕ Listado de Repetidas</h2>
+            <div id="lista-repetidas"></div>
+        </div>
+    </div>
+
+    <script>
+        const albumStructure = [
+            { group: "Inicio", teams: [{ name: "FIFA World Cup", prefix: "FWC", start: 0, end: 8, emoji: "🏆", isSpecial: "fwc" }] },
+            { group: "Grupo A", teams: [
+                { name: "México", prefix: "MEX", start: 1, end: 20, iso: "mx" }, { name: "Sudáfrica", prefix: "RSA", start: 1, end: 20, iso: "za" },
+                { name: "Corea del Sur", prefix: "KOR", start: 1, end: 20, iso: "kr" }, { name: "República Checa", prefix: "CZE", start: 1, end: 20, iso: "cz" }
+            ]},
+            { group: "Coca-Cola", isCocaCola: true, teams: [
+                { name: "Colección Coca-Cola", prefix: "CC", start: 1, end: 14, emoji: "🥤" }
+            ]}
+        ];
+
+        let albumData = JSON.parse(localStorage.getItem('albumPanini2026_V3')) || {};
+
+        function initApp() {
+            const container = document.getElementById('album-container');
+            const nav = document.getElementById('nav-container');
+            container.innerHTML = ''; nav.innerHTML = '';
+
+            albumStructure.forEach(section => {
+                let navBtn = document.createElement('button');
+                navBtn.className = 'nav-btn'; navBtn.innerText = section.group;
+                navBtn.onclick = () => document.getElementById('sec-' + section.group.replace(/\s+/g, '')).scrollIntoView({behavior:'smooth'});
+                nav.appendChild(navBtn);
+
+                let sectionDiv = document.createElement('div');
+                sectionDiv.className = 'group-section' + (section.isCocaCola ? ' coca-cola-section' : '');
+                sectionDiv.id = 'sec-' + section.group.replace(/\s+/g, '');
+                sectionDiv.innerHTML = `<h2 class="group-title">${section.group}</h2>`;
+
+                section.teams.forEach(team => {
+                    let teamDiv = document.createElement('div');
+                    teamDiv.className = 'team-section' + (team.isSpecial ? ' ' + team.isSpecial + '-section' : '');
+                    
+                    let iconHtml = team.iso ? `<img src="https://flagcdn.com/24x18/${team.iso}.png" style="border-radius:3px;">` : `<span style="font-size:1.5rem;">${team.emoji}</span>`;
+                    teamDiv.innerHTML = `<h3 class="team-title">${iconHtml} ${team.name}</h3><div class="grid" id="grid-${team.prefix}"></div>`;
+                    
+                    sectionDiv.appendChild(teamDiv);
+                    let grid = teamDiv.querySelector('.grid');
+                    for (let i = team.start; i <= team.end; i++) {
+                        let numStr = (i === 0 && team.prefix === "FWC") ? "00" : i;
+                        let id = `${team.prefix} ${numStr}`;
+                        let qty = albumData[id] || 0;
+                        let s = document.createElement('div');
+                        s.className = `sticker ${qty==0?'falta':qty==1?'tengo':'repetida'}`;
+                        s.innerHTML = `<span>${team.prefix}</span><strong>${numStr}</strong>${qty>1 ? `<div class="badge">+${qty-1}</div>` : ''}`;
+                        s.onclick = () => { albumData[id] = (albumData[id]||0)+1; save(); };
+                        s.oncontextmenu = (e) => { e.preventDefault(); if(albumData[id]>0) albumData[id]--; save(); };
+                        grid.appendChild(s);
+                    }
+                });
+                container.appendChild(sectionDiv);
+            });
+            updateStats();
+        }
+
+        function save() { localStorage.setItem('albumPanini2026_V3', JSON.stringify(albumData)); initApp(); }
+        function updateStats() {
+            let total = 0; albumStructure.forEach(s => s.teams.forEach(t => total += (t.end - t.start + 1)));
+            let unicas = Object.values(albumData).filter(v => v > 0).length;
+            document.getElementById('stats-container').innerHTML = `Pegadas: <span>${unicas}</span> / ${total}`;
+        }
+        function abrirModal() { document.getElementById('modal-repetidas').style.display = 'flex'; renderRepetidas(); }
+        function cerrarModal() { document.getElementById('modal-repetidas').style.display = 'none'; }
+        function renderRepetidas() {
+            const list = document.getElementById('lista-repetidas'); list.innerHTML = '';
+            for(let id in albumData) {
+                if(albumData[id] > 1) list.innerHTML += `<div class="repetida-item"><span>${id}</span> <strong>x${albumData[id]-1}</strong></div>`;
+            }
+        }
+        initApp();
+    </script>
+</body>
+</html>
