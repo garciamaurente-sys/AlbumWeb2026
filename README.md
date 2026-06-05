@@ -12,5 +12,8 @@ Este es mi proyecto personal para llevar el registro de figuritas del Mundial 20
 2. Haz clic en las figuritas para marcar que las tienes.
 3. ¡El progreso se guarda automáticamente en tu navegador!
 
-## Tecnología
-- HTML5, CSS3 y JavaScript puro.
+## 🛠️ Tecnologías Utilizadas
+
+- **Core:** HTML5, CSS3, JavaScript (Vanilla).
+- **Almacenamiento:** `localStorage` para persistencia de datos offline.
+- **Enfoque Mobile:** Diseño *Mobile-First* y empaquetado como aplicación híbrida instalable (APK).
